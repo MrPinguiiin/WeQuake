@@ -1,53 +1,11 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import { onMount } from 'svelte';
-	import type { EarthquakeResponse } from '$lib/types/earthquake.js';
-	import { fetchApi } from '$lib/services/api.js';
+	import type { PageData } from './$types.js';
 	import EarthquakeCard from '$lib/components/EarthquakeCard.svelte';
-	import EarthquakeLoader from '$lib/components/EarthquakeLoader.svelte';
 
-	const API_URL = 'https://data.bmkg.go.id/DataMKG/TEWS/autogempa.json';
-
-	// Reactive state using Svelte 5 runes
-	let isLoading = $state(true);
-	let error = $state<string | null>(null);
-	let earthquakeData = $state<EarthquakeResponse | null>(null);
-	let lastUpdated = $state<Date | null>(null);
-
-	/**
-	 * Fetch earthquake data from BMKG API
-	 * Using generic type for type-safe API calls
-	 */
-	const loadEarthquakeData = async (): Promise<void> => {
-		isLoading = true;
-		error = null;
-
-		const response = await fetchApi<EarthquakeResponse>(API_URL);
-
-		if (response.success && response.data) {
-			earthquakeData = response.data;
-			lastUpdated = new Date();
-		} else {
-			error = response.error || 'Gagal memuat data gempa';
-		}
-
-		isLoading = false;
-	};
-
-	// Load data on component mount
-	if (browser) {
-		onMount(() => {
-			loadEarthquakeData();
-
-			// Optional: Refresh data every 5 minutes
-			const interval = setInterval(loadEarthquakeData, 5 * 60 * 1000);
-			return () => clearInterval(interval);
-		});
-	}
+	let { data }: { data: PageData } = $props();
 
 	// Format last updated time
-	const formatLastUpdated = (date: Date | null): string => {
-		if (!date) return '';
+	const formatLastUpdated = (date: Date): string => {
 		return new Intl.DateTimeFormat('id-ID', {
 			year: 'numeric',
 			month: 'long',
@@ -73,27 +31,31 @@
 		</div>
 
 		<!-- Loading and Error States -->
-		<EarthquakeLoader {isLoading} {error} />
-
-		<!-- Earthquake Data Display -->
-		{#if !isLoading && !error && earthquakeData}
+		{#if data.error}
+			<div class="rounded-lg border border-red-200 bg-red-50 p-6 flex items-center gap-4" role="alert">
+				<span class="h-8 w-8 flex-shrink-0 text-2xl">🚨</span>
+				<div>
+					<h3 class="font-semibold text-red-900">Error Memuat Data</h3>
+					<p class="mt-1 text-sm text-red-700">{data.error}</p>
+				</div>
+			</div>
+		{:else if data.earthquakeData}
 			<div class="space-y-6">
 				<!-- Last Updated -->
 				<div class="rounded-lg bg-white p-4 text-center shadow">
 					<p class="text-sm text-gray-600">Pembaruan terakhir</p>
-					<p class="font-semibold text-gray-900">{formatLastUpdated(lastUpdated)}</p>
+					<p class="font-semibold text-gray-900">{formatLastUpdated(new Date())}</p>
 				</div>
 
 				<!-- Earthquake Card -->
-				<EarthquakeCard earthquake={earthquakeData.Infogempa.gempa} />
+				<EarthquakeCard earthquake={data.earthquakeData.Infogempa.gempa} />
 
 				<!-- Refresh Button -->
 				<button
-					onclick={loadEarthquakeData}
-					disabled={isLoading}
+					disabled={false}
 					class="w-full rounded-lg bg-blue-600 px-6 py-3 font-semibold text-white hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
 				>
-					{isLoading ? 'Memuat...' : 'Perbarui Data'}
+					Perbarui Data
 				</button>
 			</div>
 		{/if}
