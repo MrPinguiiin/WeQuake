@@ -1,58 +1,18 @@
-# Svelte library
+# WeQuake
 
-Everything you need to build a Svelte library, powered by [`sv`](https://npmjs.com/package/sv).
+**WeQuake** is a comprehensive mobile application designed to provide users with **real-time alerts** for both meteorological conditions (weather) and seismic activity (earthquakes). Our mission is to integrate essential environmental data into a single, user-friendly platform, empowering communities with timely, actionable information for enhanced safety and preparedness.
 
-Read more about creating a library [in the docs](https://svelte.dev/docs/kit/packaging).
+### Key Features
 
-## Creating a project
+* **Dual Monitoring:** Get forecasts for weather conditions and immediate reports on earthquake events.
+* **Real-time Alerts:** Receive push notifications for severe weather changes or nearby seismic activity.
+* **Historical Data:** View a log of recent earthquakes and past weather trends.
+* **Localized Information:** Data filtered and presented based on the user's current geographical location.
 
-If you're seeing this, you've probably already done this step. Congrats!
+### Technology Stack (Ganti sesuai teknologi yang Anda gunakan)
 
-```sh
-# create a new project in the current directory
-npx sv create
+* **Frontend:** [e.g., React Native / Flutter / Android Native (Kotlin)]
+* **Backend:** [e.g., Node.js / Python (Flask/Django)]
+* **APIs:** Utilizing public data from [e.g., BMKG, OpenWeatherMap, USGS].
 
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
-
-## Building
-
-To build your library:
-
-```sh
-npm pack
-```
-
-To create a production version of your showcase app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
-
-## Publishing
-
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
-
-To publish your library to [npm](https://www.npmjs.com):
-
-```sh
-npm publish
-```
+---
