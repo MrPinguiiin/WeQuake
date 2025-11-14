@@ -1,20 +1,11 @@
 <script lang="ts">
 	import type { PageData } from './$types.js';
 	import EarthquakeCard from '$lib/components/EarthquakeCard.svelte';
+	import { formatLastUpdated } from '@/lib/helper/function/fomat-date.ts';
 
 	let { data }: { data: PageData } = $props();
 
-	// Format last updated time
-	const formatLastUpdated = (date: Date): string => {
-		return new Intl.DateTimeFormat('id-ID', {
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric',
-			hour: '2-digit',
-			minute: '2-digit',
-			second: '2-digit',
-		}).format(date);
-	};
+
 </script>
 
 <svelte:head>
